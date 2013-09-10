@@ -1,0 +1,57 @@
+#include <stdio.h>
+
+int partition(int **a, int start, int end)
+{
+	int temp, i, j;
+	int pivot = (*a)[end];
+	i = start;
+	j = end;
+	while(i<j)
+	{
+		while((*a)[i] < pivot)
+		{
+			i++;
+		}
+		while((*a)[j] >= pivot)
+		{
+			j--;
+		}
+		if(i<j)
+		{
+			temp = (*a)[i];
+			(*a)[i] = (*a)[j];
+			(*a)[j] = temp;
+		}
+	}
+	temp = pivot;
+	(*a)[end] = (*a)[i];
+	(*a)[i] = temp;
+	return i;
+}
+
+void quicksort(int **a, int start, int end)
+{
+	int split;
+	if(start<=end)
+	{
+		split = partition(a, start, end);
+		quicksort(a, start, split-1);
+		quicksort(a, split+1, end);
+	}
+}
+
+int main(void) {
+	int i, num, *a;
+	scanf("%d", &num);
+	a = (int *)malloc(num * sizeof(int));
+	for(i=0;i<num;i++)
+	{
+		scanf("%d ", &a[i]);
+	}
+	quicksort(&a, 0, num-1);
+	for(i=0;i<num;i++)
+	{
+		printf("%d ", a[i]);
+	}
+	return 0;
+}
